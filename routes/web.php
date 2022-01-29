@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
-    return view('upload');
+    return redirect('/testing');
     // $files = Storage::disk("google")->allfiles();
     // dump($files);
     // $firstFileName = $files[4];
