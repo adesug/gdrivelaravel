@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +17,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('upload');
     // $files = Storage::disk("google")->allfiles();
     // dump($files);
     // $firstFileName = $files[4];
@@ -29,13 +31,15 @@ Route::get('/', function () {
     // dump($url);
 });
 Route::post('/upload', function (Request $request) {
-    $data = $request ->file("thing")->store("","google");
-    $details = Storage::disk('google')->getMetadata($data);
-    $value = array_values($details);
-    $getvalue = $value[2];
-    $url = Storage::disk('google')->url($getvalue);
-    dump($url);
+    // $data = $request ->file("thing")->store("","google");
+    // $details = Storage::disk('google')->getMetadata($data);
+    // $value = array_values($details);
+    // $getvalue = $value[2];
+    // $url = Storage::disk('google')->url($getvalue);
+    // dump($url);
 });
 
 Route::get('/data','dataController@index')->name('index');
 Route::get('/tambahData','dataController@create')->name('tambah');
+Route::get('/testing', 'uploadController@index')->name('testing');
+Route::post('/uploadfile','uploadController@create')->name('uploadfile');
