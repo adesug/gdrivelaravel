@@ -23,6 +23,6 @@ class uploadController extends Controller
             'name'=> $request->name,
             'link'=>$url,
         ]);
-        return redirect('testing');
+        return redirect('/');
     }
 }
