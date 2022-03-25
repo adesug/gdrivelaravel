@@ -15,29 +15,6 @@
 
 <body>
     <div class="container">
-        <div class="card card-info card-outline">
-            <div class="card-header">
-                <h1>Upload File</h1>
-            </div>
-            <div class="card-body">
-                <form action="/uploadfile" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="from-group">
-                        <label for="formControlInput" class="form-label">Name</label>
-                        <input type="text" id="name" name="name" class="form-control" id="formControlInput"
-                            placeholder="name@example.com">
-                    </div>
-                    <div class="from-group">
-                        <label for="formFile" class="form-label">file input</label>
-                        <input class="form-control" type="file" id="formFile" name="thing">
-                    </div>
-                    <button type="submit" class="btn btn-primary">simpan</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -46,10 +23,24 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($showdata as $item)
+                @foreach($data as $item)
                 <tr>
                     <td>{{$item -> name}}</td>
                     <td>{{$item -> link}}</td>
+                    <!-- <td class="text-center">
+                                        <form action="{{ route('folder.update', $item->id) }}" method="post"
+                                            class="sa-remove" id="data-{{ $item->id }}">
+                                            @csrf
+                                            <input type="hidden" name="_method" value="DELETE">
+                                        </form>
+                                        <button onclick="deleteRow({{ $item->id }})"
+                                            class="btn btn-danger waves-effect waves-lightr"><i
+                                            class="bx bx-block font-size-16 align-middle me-2"></i>Delete</button>
+                          </td> -->
+
+                          <td>  <a href="{{ route('folder.update', $item->id) }}">
+                              <button>Active</button>
+                          </a></td>
                 </tr>
                 @endforeach
             </tbody>
@@ -65,6 +56,23 @@
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+        function deleteRow(id) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this data!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $('#data-' + id).submit();
+                }
+            })
+        }
+
     </script>
 </body>
 
