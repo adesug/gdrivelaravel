@@ -17,6 +17,7 @@ class CreateDirectoryUploadsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('directory_id')->nullable();
+            $table->enum('status',['Aktif','Non Aktif'])->default('Non Aktif');
             $table->timestamps();
         });
     }

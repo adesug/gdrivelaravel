@@ -13,11 +13,27 @@ class uploadController extends Controller
     public function index()
     {
         $showdata = Upload::all();
-        return view('upload', compact('showdata'));
+        $directory = DirectoryUpload::all();
+
+        $getDirectoryId = DirectoryUpload::where('status','=','Aktif')->get();
+        // dd($getDirectoryId[1]);
+        // $d = $getDirectoryId[0]["directory_id"];
+        // dd($d);
+        // echo json_encode($d);
+
+        return view('upload', compact('showdata','directory'));
     }
     public function create(Request $request)
     {
-        $data = $request->file("thing")->store("", "google");
+        // $getDirectoryId = DirectoryUpload::where('status','=','Aktif')->get()->keyBy('directory_id');
+        $getDirectoryId = DirectoryUpload::where('status','=','Aktif')->get();
+        // dd($getDirectoryId[1]);
+        $d = $getDirectoryId[0]["directory_id"];
+        // dd($d);
+        // $directory = $request->input("directory");
+        // dd($directory);
+        $data = $request->file("thing")->store($d, "google");
+      
         $details = Storage::disk('google')->getMetadata($data);
         $value = array_values($details);
         $getvalue = $value[2];
@@ -79,7 +95,7 @@ class uploadController extends Controller
     {
         $directory = $request->input("directory");
         $data = $request->file("thing")->store($directory, "google");
-        // $data = $request ->file("thing")->store("1sJwRJmnPVgC2flYFG4XdOnuwAnyUYwJJ","google");
+        // $data = $request ->file("thing")->store("1brpkdEJ6Z_ufrBf90-2STtwgCzPEKiyT","google");
         $details = Storage::disk('google')->getMetadata($data);
         // dd($details);
         // dd($directory);

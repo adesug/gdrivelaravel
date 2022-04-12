@@ -31,6 +31,15 @@
                         <label for="formFile" class="form-label">file input</label>
                         <input class="form-control" type="file" id="formFile" name="thing">
                     </div>
+                    <div class="form-group">
+                        <label class="form-label" for="">pilih directory penyimpanan</label>
+                        <select name="directory" id="" class="form-control">
+                            <option selected disabled value="">Pilih Directory</option>
+                            @foreach ($directory as $d)
+                            <option value="{{$d->directory_id}}">{{$d->name}}</option>  
+                            @endforeach
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary">simpan</button>
                 </form>
             </div>
