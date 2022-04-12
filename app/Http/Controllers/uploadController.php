@@ -10,63 +10,75 @@ use Illuminate\Support\Facades\Storage;
 
 class uploadController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $showdata = Upload::all();
-        return view('upload',compact('showdata'));
+        return view('upload', compact('showdata'));
     }
-    public function create(Request $request){
-        $data = $request ->file("thing")->store("","google");
+    public function create(Request $request)
+    {
+        $data = $request->file("thing")->store("", "google");
         $details = Storage::disk('google')->getMetadata($data);
         $value = array_values($details);
         $getvalue = $value[2];
         $url = Storage::disk('google')->url($getvalue);
         Upload::create([
-            'name'=> $request->name,
-            'link'=>$url,
+            'name' => $request->name,
+            'link' => $url,
         ]);
         return redirect('/');
     }
 
-    public function directory(Request $request){
+    public function directory(Request $request)
+    {
         $showdata = DirectoryUpload::all();
 
-        return view('createdirectory',compact('showdata'));
+        return view('createdirectory', compact('showdata'));
     }
 
-    public function adddirectory(Request $request){
+    public function adddirectory(Request $request)
+    {
         $data = $request->input('name');
         dd($data);
     }
 
-    public function createDirectory(Request $request){
+    public function createDirectory(Request $request)
+    {
         $name = $request->input('name');
-        $data =Storage::disk("google")->makeDirectory($name);
-        $dirs = Storage::disk("google")->directories();
-        $array = $dirs;
-        $getDirectory = $array[count($array)-1];
+        $dir_before = Storage::disk("google")->directories();
+        $data = Storage::disk("google")->makeDirectory($name);
+        $dir = Storage::disk("google")->directories();
+        $data_dir_before = collect($dir_before);
+        $data_dir = collect($dir);
+
+        $getDirectory = $data_dir->diff($data_dir_before)->first();
+
         DirectoryUpload::create([
             'name' => $request->name,
-            'directory_id' =>$getDirectory
+            'directory_id' => empty($getDirectory) ? null : $getDirectory
         ]);
         return redirect('/directory');
     }
-    public function showAllDirectory(){
+    public function showAllDirectory()
+    {
         $dirs = Storage::disk("google")->directories();
         dd($dirs);
     }
-    public function uploadByDirectory(Request $request){
+    public function uploadByDirectory(Request $request)
+    {
 
         $showdata = DirectoryUpload::all();
 
         // $data = $request->input("name");
         // $dta1 = $request->input("directory");
-        
 
-        return view('uploadbydirectory',compact('showdata'));
+
+        return view('uploadbydirectory', compact('showdata'));
     }
-    public function uploadfilebyDirectory(Request $request){
+    public function uploadfilebyDirectory(Request $request)
+    {
         $directory = $request->input("directory");
-        $data = $request ->file("thing")->store($directory,"google");
+        $data = $request->file("thing")->store($directory, "google");
         // $data = $request ->file("thing")->store("1sJwRJmnPVgC2flYFG4XdOnuwAnyUYwJJ","google");
         $details = Storage::disk('google')->getMetadata($data);
         // dd($details);
@@ -74,8 +86,9 @@ class uploadController extends Controller
         return redirect('/upload');
     }
 
-    public function active($id){
-        $id= DirectoryUpload::findOrFail($id);
+    public function active($id)
+    {
+        $id = DirectoryUpload::findOrFail($id);
         $id->delete();
 
         // $data->update([
