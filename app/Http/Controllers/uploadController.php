@@ -69,10 +69,11 @@ class uploadController extends Controller
 
         $getDirectory = $data_dir->diff($data_dir_before)->first();
 
-        DirectoryUpload::create([
+        $directory = DirectoryUpload::create([
             'name' => $request->name,
             'directory_id' => empty($getDirectory) ? null : $getDirectory
         ]);
+        dd($directory);
         return redirect('/directory');
     }
     public function showAllDirectory()

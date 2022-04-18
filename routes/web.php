@@ -57,3 +57,8 @@ Route::resource('/folder', 'DirectoryController');
 
 Route::resource('/posts', 'PostController');
 // Route::get('/posts/create','PostController@create');
+
+//uploadFileOneMore
+
+route::get('/UploadFileMore','uploadFileOneMoreController@index')->name('tes');
+route::post('/UploadFileMore','uploadFileOneMoreController@store');
