@@ -31,6 +31,10 @@
                     <input type="file" class="form-control" id="file3" name="thing_3"
                         aria-describedby="inputGroupFileAddon04" aria-label="Upload">
                 </div>
+                <div class="input-group m-3">
+                    <input type="file" class="form-control" id="file4" name="thing_4    "
+                        aria-describedby="inputGroupFileAddon04" aria-label="Upload Tapa Required">
+                </div>
                 <div class="text-center">
                     <button type="submit" id= "button" class="btn btn-primary" disabled>Upload</button>
                 </div>
