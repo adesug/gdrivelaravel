@@ -62,3 +62,6 @@ Route::resource('/posts', 'PostController');
 
 route::get('/UploadFileMore','uploadFileOneMoreController@index')->name('tes');
 route::post('/UploadFileMore','uploadFileOneMoreController@store');
+
+Route::get('/loader', 'LoaderController@index')->name('loader');
+Route::post('/loader', 'LoaderController@store');
