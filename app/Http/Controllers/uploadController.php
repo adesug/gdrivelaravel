@@ -15,25 +15,25 @@ class uploadController extends Controller
         $showdata = Upload::all();
         $directory = DirectoryUpload::all();
 
-        $getDirectoryId = DirectoryUpload::where('status','=','Aktif')->get();
+        $getDirectoryId = DirectoryUpload::where('status', '=', 'Aktif')->get();
         // dd($getDirectoryId[1]);
         // $d = $getDirectoryId[0]["directory_id"];
         // dd($d);
         // echo json_encode($d);
 
-        return view('upload', compact('showdata','directory'));
+        return view('upload', compact('showdata', 'directory'));
     }
     public function create(Request $request)
     {
         // $getDirectoryId = DirectoryUpload::where('status','=','Aktif')->get()->keyBy('directory_id');
-        $getDirectoryId = DirectoryUpload::where('status','=','Aktif')->get();
+        $getDirectoryId = DirectoryUpload::where('status', '=', 'Aktif')->get();
         // dd($getDirectoryId[1]);
         $d = $getDirectoryId[0]["directory_id"];
         // dd($d);
         // $directory = $request->input("directory");
         // dd($directory);
         $data = $request->file("thing")->store($d, "google");
-      
+
         $details = Storage::disk('google')->getMetadata($data);
         $value = array_values($details);
         $getvalue = $value[2];
@@ -94,12 +94,15 @@ class uploadController extends Controller
     }
     public function uploadfilebyDirectory(Request $request)
     {
+        $nim = random_int(100000, 999999);
+
         $directory = $request->input("directory");
-        $data = $request->file("thing")->store($directory, "google");
-        // $data = $request ->file("thing")->store("1brpkdEJ6Z_ufrBf90-2STtwgCzPEKiyT","google");
+        $file = $request->file('thing');
+        $ext = $file->getClientOriginalExtension();
+        $file_name = $nim . '.' . $ext;
+        $data = $request->file('thing')->storeAs($directory, $file_name, 'google');
         $details = Storage::disk('google')->getMetadata($data);
-        // dd($details);
-        // dd($directory);
+
         return redirect('/upload');
     }
 
